@@ -68,7 +68,7 @@ Texto:      $RES"
 
 # FUNCION LOG: AÑADE UNA NUEVA LINEA AL LOG CON LA FECHA
 function LOG {
-    MSG=$"[$(date +%Y-%m-%d-%H.%M.%S)] $1" 
+    MSG=$"[$(date +%Y-%m-%d %H.%M.%S)] $1" 
     echo $MSG >> $FICHERO_LOG
     echo $MSG
 }
