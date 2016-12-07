@@ -90,10 +90,7 @@ LISTA_BDS=`echo 'show databases' | mysql --defaults-extra-file=$FICHERO_CONFIG_M
 # PARA CADA BASE DE DATOS, REALIZAMOS UN BACKUP
 for DB in $LISTA_BDS
 do
-  if [ "$DB" == "information_schema" ] 
-        || [ "$DB" == "mysql" ]
-        || [ "$DB" == "performance_schema" ]
-        || [ "$DB" == "sys" ]; then      
+  if [ "$DB" == "information_schema" ] || [ "$DB" == "mysql" ] || [ "$DB" == "performance_schema" ] || [ "$DB" == "sys" ]; then      
         # NO HACEMOS NADA  
         NADA=""
   else
