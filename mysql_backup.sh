@@ -65,7 +65,7 @@ function BACKUP {
 $SERVIDOR - $BASEDEDATOS
 Fecha:      $FECHA
 Fichero:    $FICHERO_SQL
-Texto:      $RES"
+Texto:      $RES"  2>> $FICHERO_LOG
         fi
 
 }
@@ -84,7 +84,6 @@ function LOG {
 LOG "COMIENZA EL SCRIPT PARA $SERVIDOR. VERSIÓN $VERSION"
 
 # ME TRAIGO LA LISTA DE LAS BASES DE DATOS DEL SERVIDOR
-
 LISTA_BDS=`echo 'show databases' | mysql --defaults-extra-file=$FICHERO_CONFIG_MYSQL -B | sed /^Database$/d`
 
 # PARA CADA BASE DE DATOS, REALIZAMOS UN BACKUP
@@ -104,6 +103,7 @@ BACKUP "--all-databases"
 
 LOG "TERMINA EL SCRIPT PARA $SERVIDOR"
 
+# ENVIAMOS UN EMAIL DE RESUMEN DEL ESTADO DE LA COPIA
 mail -a$EMAILREMITENTE -s "Copia completada de BD $SERVIDOR" $EMAILAVISO -A $FICHERO_LOG <<< "
 FECHA: $(date +%Y-%m-%d-%H.%M.%S)
 SERVIDOR: $SERVIDOR
@@ -112,7 +112,11 @@ COPIAS CON ERROR: $BDS_ERROR
 
 
 ----------------------------
-VERSION DEL SCRIPT: $VERSION"
+VERSION DEL SCRIPT: $VERSION"  2>> $FICHERO_LOG
+
+echo "----------------------------"
+echo "VOLCADO DE FICHERO DE LOG"
+echo "----------------------------"
 
 cat $FICHERO_LOG
 
