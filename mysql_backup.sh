@@ -87,17 +87,22 @@ LOG "COMIENZA EL SCRIPT PARA $SERVIDOR. VERSIÓN $VERSION"
 
 LISTA_BDS=`echo 'show databases' | mysql --defaults-extra-file=$FICHERO_CONFIG_MYSQL -B | sed /^Database$/d`
 
-# PARA CADA BASE DE DATOS, LE REALIZO UN BACKUP
-
+# PARA CADA BASE DE DATOS, REALIZAMOS UN BACKUP
 for DB in $LISTA_BDS
 do
-  if [ "$DB" == "information_schema" ] || [ "$DB" == "performance_schema" ]; then      
+  if [ "$DB" == "information_schema" ] 
+        || [ "$DB" == "mysql" ]
+        || [ "$DB" == "performance_schema" ]
+        || [ "$DB" == "sys" ]; then      
         # NO HACEMOS NADA  
         NADA=""
   else
         BACKUP $DB 
   fi  
 done
+
+# REALIZAMOS UNA COPIA ADICIONAL DE TODAS LAS BASES DE DATOS
+BACKUP -all-databases
 
 
 LOG "TERMINA EL SCRIPT PARA $SERVIDOR"
