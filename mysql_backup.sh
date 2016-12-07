@@ -61,7 +61,7 @@ function BACKUP {
              else
                 BDS_ERROR=$((BDS_ERROR + 1))
                 LOG " +#+# [ERROR] $BASEDEDATOS | $FICHERO_SQL | [DUMP] $RES"
-                mail -s "Error de copia de BD $SERVIDOR - $BASEDEDATOS" $EMAILAVISO <<< $"Error de copia de BD 
+                mail -a$EMAILREMITENTE -s "Error de copia de BD $SERVIDOR - $BASEDEDATOS" $EMAILAVISO <<< $"Error de copia de BD 
 $SERVIDOR - $BASEDEDATOS
 Fecha:      $FECHA
 Fichero:    $FICHERO_SQL
@@ -104,7 +104,7 @@ BACKUP "--all-databases"
 
 LOG "TERMINA EL SCRIPT PARA $SERVIDOR"
 
-mail -s "Copia completada de BD $SERVIDOR" $EMAILAVISO -A $FICHERO_LOG <<< "
+mail -a$EMAILREMITENTE -s "Copia completada de BD $SERVIDOR" $EMAILAVISO -A $FICHERO_LOG <<< "
 FECHA: $(date +%Y-%m-%d-%H.%M.%S)
 SERVIDOR: $SERVIDOR
 COPIAS CORRECTAS: $BDS_CORRECTAS
