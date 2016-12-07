@@ -60,7 +60,7 @@ function BACKUP {
                 BDS_CORRECTAS=$((BDS_CORRECTAS + 1))
              else
                 BDS_ERROR=$((BDS_ERROR + 1))
-                LOG " **** [ERROR] $BASEDEDATOS | $FICHERO_SQL | [DUMP] $RES"
+                LOG " +#+# [ERROR] $BASEDEDATOS | $FICHERO_SQL | [DUMP] $RES"
                 mail -s "Error de copia de BD $SERVIDOR - $BASEDEDATOS" $EMAILAVISO <<< $"Error de copia de BD 
 $SERVIDOR - $BASEDEDATOS
 Fecha:      $FECHA
