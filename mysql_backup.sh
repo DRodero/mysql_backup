@@ -41,6 +41,10 @@ function BACKUP {
         
         LOG "INICIO $BASEDEDATOS --> $FICHERO_SQL.gz"   
 
+        if [ ! -d "$DIRECTORY" ]; then
+            mkdir $RUTA_BACKUP/$BASEDEDATOS
+        fi
+
         # mysqldump --add-drop-database --lock-tables=false --routines --events -u$USUARIO -p$PASSWORD $BASEDEDATOS $2 > $FICHERO_SQL
         mysqldump --defaults-extra-file=$FICHERO_CONFIG_MYSQL $BASEDEDATOS --add-drop-database --lock-tables=false --routines --events  > $FICHERO_SQL
 
@@ -52,7 +56,7 @@ function BACKUP {
              then
                 gzip $FICHERO_SQL
                 FILESIZE=$(du -h $FICHERO_SQL.gz | cut -f1)
-                LOG2 "     [OK] $FILESIZE"                
+                LOG "     [OK] $FILESIZE"                
                 BDS_CORRECTAS=$((BDS_CORRECTAS + 1))
              else
                 BDS_ERROR=$((BDS_ERROR + 1))
@@ -68,9 +72,9 @@ Texto:      $RES"
 
 # FUNCION LOG: AÑADE UNA NUEVA LINEA AL LOG CON LA FECHA
 function LOG {
-    MSG=$"[$(date +%Y-%m-%d %H.%M.%S)] $1" 
-    echo $MSG >> $FICHERO_LOG
-    echo $MSG
+    MENSAJE=$"[$(date +%Y-%m-%d %H.%M.%S)] $1" 
+    echo $MENSAJE >> $FICHERO_LOG
+    echo $MENSAJE
 }
 
 # ###############################################
