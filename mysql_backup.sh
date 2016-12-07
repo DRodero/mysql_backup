@@ -20,7 +20,7 @@ VERSION="1.0"
 
 SERVIDOR="PL-MySQL-M1"
 RUTA_BACKUP="/media/hdd_datos/backup"
-EMAILAVISO="diego.rodero.easp@juntadeandalucia.es"
+EMAILAVISO="email@example.org"
 FICHERO_CONFIG_MYSQL="/media/hdd_datos/scripts/config.cnf"
 
 
