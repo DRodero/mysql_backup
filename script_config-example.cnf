@@ -1,0 +1,4 @@
+SERVIDOR="SERVER_NAME"
+RUTA_BACKUP="/path/to/backup/folder"
+EMAILAVISO="email@example.org"
+FICHERO_CONFIG_MYSQL="/path/to/mysqlextraconfigfile/config.cnf"
