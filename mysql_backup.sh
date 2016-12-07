@@ -41,7 +41,7 @@ function BACKUP {
         
         LOG "INICIO $BASEDEDATOS --> $FICHERO_SQL.gz"   
 
-        if [ ! -d "$DIRECTORY" ]; then
+        if [ ! -d "$RUTA_BACKUP/$BASEDEDATOS" ]; then
             mkdir $RUTA_BACKUP/$BASEDEDATOS
         fi
 
