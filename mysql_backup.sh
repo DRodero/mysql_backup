@@ -46,7 +46,7 @@ function BACKUP {
         fi
 
         # mysqldump --add-drop-database --lock-tables=false --routines --events -u$USUARIO -p$PASSWORD $BASEDEDATOS $2 > $FICHERO_SQL
-        mysqldump --defaults-extra-file=$FICHERO_CONFIG_MYSQL $BASEDEDATOS --add-drop-database --lock-tables=false --routines --events  > $FICHERO_SQL
+        mysqldump --defaults-extra-file=$FICHERO_CONFIG_MYSQL $BASEDEDATOS --add-drop-database --lock-tables=false --routines --events  > $FICHERO_SQL 2>> $FICHERO_LOG
 
         RESULTADO="$(tail -n1 $FICHERO_SQL)"
 
@@ -54,7 +54,7 @@ function BACKUP {
 
         if [[ $RES == *"Dump completed"* ]]
              then
-                gzip $FICHERO_SQL
+                gzip $FICHERO_SQL 2>> $FICHERO_LOG
                 FILESIZE=$(du -h $FICHERO_SQL.gz | cut -f1)
                 LOG "     [OK] $FILESIZE"                
                 BDS_CORRECTAS=$((BDS_CORRECTAS + 1))
