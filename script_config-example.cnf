@@ -1,4 +1,5 @@
 SERVIDOR="SERVER_NAME"
 RUTA_BACKUP="/path/to/backup/folder"
+RUTA_LOGS="/path/to/backup_logs/folder"
 EMAILAVISO="email@example.org"
 FICHERO_CONFIG_MYSQL="/path/to/mysqlextraconfigfile/config.cnf"

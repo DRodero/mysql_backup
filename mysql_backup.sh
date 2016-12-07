@@ -26,7 +26,7 @@ source script_config.cnf
 
 # FICHERO DE LOG
 FECHA=$(date +%Y-%m-%d-%H.%M.%S)
-FICHERO_LOG="$RUTA_BACKUP/logs/$FECHA-backup_db.log"
+FICHERO_LOG="$RUTA_LOGS/$FECHA-backup_db.log"
 touch $FICHERO_LOG
 
 BDS_CORRECTAS=0
