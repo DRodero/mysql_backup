@@ -65,7 +65,7 @@ function BACKUP {
 $SERVIDOR - $BASEDEDATOS
 Fecha:      $FECHA
 Fichero:    $FICHERO_SQL
-Texto:      $RES"  2>> $FICHERO_LOG
+Texto:      $RES" 2>> $FICHERO_LOG
         fi
 
 }
@@ -114,10 +114,6 @@ COPIAS CON ERROR: $BDS_ERROR
 ----------------------------
 VERSION DEL SCRIPT: $VERSION"  2>> $FICHERO_LOG
 
-echo "----------------------------"
-echo "VOLCADO DE FICHERO DE LOG"
-echo "----------------------------"
 
-cat $FICHERO_LOG
 
 
