@@ -47,7 +47,6 @@ function BACKUP {
             mkdir $RUTA_BACKUP/$BASEDEDATOS
         fi
 
-        # mysqldump --add-drop-database --lock-tables=false --routines --events -u$USUARIO -p$PASSWORD $BASEDEDATOS $2 > $FICHERO_SQL
         mysqldump --defaults-extra-file=$FICHERO_CONFIG_MYSQL $BASEDEDATOS --add-drop-database --lock-tables=false --routines --events  > $FICHERO_SQL 2>> $FICHERO_LOG
 
         RESULTADO="$(tail -n1 $FICHERO_SQL)"
