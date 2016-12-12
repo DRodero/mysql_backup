@@ -1,6 +1,6 @@
-SERVIDOR="SERVER_NAME"
 RUTA_BACKUP="/path/to/backup/folder"
 RUTA_LOGS="/path/to/backup_logs/folder"
 EMAILAVISO="email@example.org"
-EMAILREMITENTE="From:Backup $SERVIDOR<$SERVIDOR@example.com"
+EMAILREMITENTE="From:Backup $HOSTNAME<$HOSTNAME@example.com"
 FICHERO_CONFIG_MYSQL="/path/to/mysqlextraconfigfile/config.cnf"
+CHECK_SLAVE=false

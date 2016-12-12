@@ -2,7 +2,7 @@
 
 # ###############################################
 # SCRIPT:   mysql_backup.sh
-# VERSIÓN:  1.0
+# VERSIÓN:  1.1
 # FECHA:    06-12-2016
 # AUTOR:    DIEGO RODERO PULIDO
 # ###############################################
@@ -10,9 +10,11 @@
 #           Una vez completado el backup, comprueba que está bien hecho y lo comprime.
 #           Si detecta error, manda un email de aviso con el mismo a la dirección proporcionada.
 #           Al finalizar, manda también un mail con un resumen de lo acontecido
+#   1.1     Con una nueva variable (CHECK_SLAVE), indico si comprobar el estado de esclavo o no.
+#           Cambio la viariable SERVIDOR por HOSTNAME que tiene el sistema
 # ###############################################
 
-VERSION="1.0"
+VERSION="1.1"
 
 # ###############################################
 # VARIABLES DEL SCRIPT 
@@ -61,8 +63,8 @@ function BACKUP {
              else
                 BDS_ERROR=$((BDS_ERROR + 1))
                 LOG " +#+# [ERROR] $BASEDEDATOS | $FICHERO_SQL | [DUMP] $RES"
-                mail -a$EMAILREMITENTE -s "Error de copia de BD $SERVIDOR - $BASEDEDATOS" $EMAILAVISO <<< $"Error de copia de BD 
-$SERVIDOR - $BASEDEDATOS
+                mail -a$EMAILREMITENTE -s "Error de copia de BD $HOSTNAME - $BASEDEDATOS" $EMAILAVISO <<< $"Error de copia de BD 
+$HOSTNAME - $BASEDEDATOS
 Fecha:      $FECHA
 Fichero:    $FICHERO_SQL
 Texto:      $RES" 2>> $FICHERO_LOG
@@ -81,7 +83,7 @@ function LOG {
 # ###############################################
 # ###############################################
 
-LOG "COMIENZA EL SCRIPT PARA $SERVIDOR. VERSIÓN $VERSION"
+LOG "COMIENZA EL SCRIPT PARA $HOSTNAME. VERSIÓN $VERSION"
 
 # ME TRAIGO LA LISTA DE LAS BASES DE DATOS DEL SERVIDOR
 LISTA_BDS=`echo 'show databases' | mysql --defaults-extra-file=$FICHERO_CONFIG_MYSQL -B | sed /^Database$/d`
@@ -100,17 +102,24 @@ done
 # REALIZAMOS UNA COPIA ADICIONAL DE TODAS LAS BASES DE DATOS
 BACKUP "--all-databases"
 
-# COMPRUEBO EL ESTADO DEL ESCLAVO Y LO PINTO EN EL LOG
-ESTADO_ESCLAVO=`echo 'show slave status\G' | mysql --defaults-extra-file=$FICHERO_CONFIG_MYSQL | grep Slave_SQL_Running_State`
-LOG $ESTADO_ESCLAVO
 
-LOG "TERMINA EL SCRIPT PARA $SERVIDOR"
+# COMPRUEBO EL ESTADO DEL ESCLAVO Y LO PINTO EN EL LOG 
+ESTADO_ESCLAVO = "";
+
+if [ $CHECK_SLAVE = true ] ; then
+    ESTADO_ESCLAVO=`echo 'show slave status\G' | mysql --defaults-extra-file=$FICHERO_CONFIG_MYSQL | grep Slave_SQL_Running_State`
+    LOG $ESTADO_ESCLAVO
+
+    ESTADO_ESCLAVO = "ESCLAVO: $ESTADO_ESCLAVO"
+fi
+
+LOG "TERMINA EL SCRIPT PARA $HOSTNAME"
 
 # ENVIAMOS UN EMAIL DE RESUMEN DEL ESTADO DE LA COPIA
-mail -a$EMAILREMITENTE -s "Copia completada de BD $SERVIDOR" $EMAILAVISO -A $FICHERO_LOG <<< "
+mail -a$EMAILREMITENTE -s "Copia completada de BD $HOSTNAME" $EMAILAVISO -A $FICHERO_LOG <<< "
 FECHA: $(date +%Y-%m-%d-%H.%M.%S)
-SERVIDOR: $SERVIDOR
-ESCLAVO: $ESTADO_ESCLAVO
+SERVIDOR: $HOSTNAME
+$ESTADO_ESCLAVO
 COPIAS CORRECTAS: $BDS_CORRECTAS
 COPIAS CON ERROR: $BDS_ERROR
 
