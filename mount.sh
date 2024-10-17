@@ -1,0 +1,2 @@
+mount -t cifs -o username=backup,password=CiempiesMorado2016. //10.10.128.139/BackupDB /mnt/pegaso_backupdb/
+mount -t cifs -o username=backup,password=CiempiesMorado2016. //10.10.128.139/BackupDB /mnt/pegaso_backupdb

@@ -2,8 +2,8 @@
 
 # ###############################################
 # SCRIPT:   mysql_backup.sh
-# VERSIÓN:  1.1
-# FECHA:    06-12-2016
+# VERSIÓN:  1.3
+# FECHA:    17-10-2024
 # AUTOR:    DIEGO RODERO PULIDO
 # ###############################################
 # INFO:     Este script realiza automaticamente un backup de todas las bases de datos del servidor.
@@ -12,9 +12,11 @@
 #           Al finalizar, manda también un mail con un resumen de lo acontecido
 #   1.1     Con una nueva variable (CHECK_SLAVE), indico si comprobar el estado de esclavo o no.
 #           Cambio la viariable SERVIDOR por HOSTNAME que tiene el sistema
+#   1.2     Copia los ficheros terminados a una unidad de red de copia
+#   1.3     Añadida la opción de especificar el remitente del email
 # ###############################################
 
-VERSION="1.1"
+VERSION="1.2"
 
 # ###############################################
 # VARIABLES DEL SCRIPT 
@@ -59,15 +61,20 @@ function BACKUP {
                 FILESIZE=$(du -h $FICHERO_SQL.gz | cut -f1)
                 LOG "     [OK] $FILESIZE"                
                 BDS_CORRECTAS=$((BDS_CORRECTAS + 1))
+                COPIA_REMOTO "$FICHERO_SQL.gz"
              else
                 BDS_ERROR=$((BDS_ERROR + 1))
                 LOG " +#+# [ERROR] $BASEDEDATOS | $FICHERO_SQL | [DUMP] $RES"
-                mail -a$EMAILREMITENTE -s "Error de copia de BD $HOSTNAME - $BASEDEDATOS" $EMAILAVISO <<< $"Error de copia de BD 
+                mail -a$EMAILREMITENTE -s "Error de copia de BD $HOSTNAME - $BASEDEDATOS" $EMAILAVISO -r $EMAILREMITENTE <<< $"Error de copia de BD 
 $HOSTNAME - $BASEDEDATOS
 Fecha:      $FECHA
 Fichero:    $FICHERO_SQL
 Texto:      $RES" 2>> $FICHERO_LOG
-        fi
+        fi"
+
+}
+
+function COPIA_REMOTO {
 
 }
 
